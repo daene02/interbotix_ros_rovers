@@ -1,0 +1,44 @@
+<launch>
+
+  <arg name="robot_model"                       default="locobot_wx200"/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="use_lidar"                         default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="use_rviz"                          default="false"/>
+  <arg name="use_camera"                        default="true"/>
+  <arg name="dof"                               default="5"/>
+  <arg name="localization"                      default="false"/>
+  <arg name="rtabmap_args"                      default="--delete_db_on_start"/>
+
+  <arg     if="$(arg use_lidar)" name="rtabmap_configs" default="$(find interbotix_xslocobot_nav)/config/rtabmap_params_lidar.ini"/>
+  <arg unless="$(arg use_lidar)" name="rtabmap_configs" default="$(find interbotix_xslocobot_nav)/config/rtabmap_params_no_lidar.ini"/>
+
+  <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="use_lidar"                         value="$(arg use_lidar)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+    <arg name="rviz_frame"                        value="map"/>
+    <arg name="use_camera"                        value="$(arg use_camera)"/>
+    <arg name="use_base"                          value="true"/>
+  </include>
+
+  <include file="$(find rtabmap_ros)/launch/rtabmap.launch" ns="$(arg robot_name)">
+    <arg name="cfg"                               value="$(arg rtabmap_configs)"/>
+    <arg name="rtabmapviz"                        value="false"/>
+    <arg name="localization"                      value="$(arg localization)"/>
+    <arg name="frame_id"                          value="$(arg robot_name)/base_footprint"/>
+    <arg name="odom_frame_id"                     value="$(arg robot_name)/odom"/>
+    <arg name="map_frame_id"                      value="map"/>
+    <arg name="args"		                          value="$(arg rtabmap_args)"/>
+    <arg name="rgb_topic"                         value="/$(arg robot_name)/camera/color/image_raw"/>
+    <arg name="depth_topic"                       value="/$(arg robot_name)/camera/aligned_depth_to_color/image_raw"/>
+    <arg name="camera_info_topic"                 value="/$(arg robot_name)/camera/color/camera_info"/>
+    <arg name="depth_camera_info_topic"           value="/$(arg robot_name)/camera/depth/camera_info"/>
+    <arg name="subscribe_scan"                    value="$(arg use_lidar)"/>
+    <arg name="scan_topic"                        value="/$(arg robot_name)/scan"/>
+    <arg name="visual_odometry"                   value="false"/>
+  </include>
+
+</launch>

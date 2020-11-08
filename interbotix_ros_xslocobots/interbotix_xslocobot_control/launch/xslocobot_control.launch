@@ -83,10 +83,9 @@
   	<param name="angle_compensate"  type="bool"   value="true"/>
   </node>
 
-  <include if="$(arg use_camera)" file="$(find realsense2_camera)/launch/rs_rgbd.launch" ns="$(arg robot_name)">
+  <include if="$(arg use_camera)" file="$(find realsense2_camera)/launch/rs_camera.launch" ns="$(arg robot_name)">
     <arg name="tf_prefix"		                      value="$(arg robot_name)/camera"/>
-    <arg name="enable_infra1"                     value="true"/>
-    <arg name="enable_infra2"                     value="true"/>
+    <arg name="align_depth"                       value="true"/>
   </include>
 
 </launch>
