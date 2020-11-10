@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: Image
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -305,87 +305,128 @@ Visualization Manager:
           Value: true
         locobot_wx200/wrist_link:
           Value: true
-        map:
-          Value: true
       Marker Scale: 0.150000006
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          locobot_wx200/odom:
-            locobot_wx200/base_footprint:
-              locobot_wx200/base_link:
-                locobot_wx200/camera_tower_link:
-                  locobot_wx200/arm_cradle_link:
+        locobot_wx200/odom:
+          locobot_wx200/base_footprint:
+            locobot_wx200/base_link:
+              locobot_wx200/camera_tower_link:
+                locobot_wx200/arm_cradle_link:
+                  {}
+                locobot_wx200/lidar_tower_link:
+                  locobot_wx200/laser_frame_link:
                     {}
-                  locobot_wx200/lidar_tower_link:
-                    locobot_wx200/laser_frame_link:
-                      {}
-                  locobot_wx200/pan_link:
-                    locobot_wx200/tilt_link:
-                      locobot_wx200/camera_link:
-                        locobot_wx200/camera_aligned_depth_to_color_frame:
-                          locobot_wx200/camera_color_optical_frame:
-                            {}
-                        locobot_wx200/camera_color_frame:
+                locobot_wx200/pan_link:
+                  locobot_wx200/tilt_link:
+                    locobot_wx200/camera_link:
+                      locobot_wx200/camera_aligned_depth_to_color_frame:
+                        locobot_wx200/camera_color_optical_frame:
                           {}
-                        locobot_wx200/camera_depth_frame:
-                          locobot_wx200/camera_depth_optical_frame:
-                            {}
-                locobot_wx200/caster_back_link:
+                      locobot_wx200/camera_color_frame:
+                        {}
+                      locobot_wx200/camera_depth_frame:
+                        locobot_wx200/camera_depth_optical_frame:
+                          {}
+              locobot_wx200/caster_back_link:
+                {}
+              locobot_wx200/caster_front_link:
+                {}
+              locobot_wx200/cliff_sensor_front_link:
+                {}
+              locobot_wx200/cliff_sensor_left_link:
+                {}
+              locobot_wx200/cliff_sensor_right_link:
+                {}
+              locobot_wx200/gyro_link:
+                {}
+              locobot_wx200/plate_link:
+                locobot_wx200/arm_base_link:
+                  locobot_wx200/shoulder_link:
+                    locobot_wx200/upper_arm_link:
+                      locobot_wx200/forearm_link:
+                        locobot_wx200/wrist_link:
+                          locobot_wx200/gripper_link:
+                            locobot_wx200/ee_arm_link:
+                              locobot_wx200/ar_tag_link:
+                                {}
+                              locobot_wx200/gripper_bar_link:
+                                locobot_wx200/fingers_link:
+                                  locobot_wx200/ee_gripper_link:
+                                    {}
+                                  locobot_wx200/left_finger_link:
+                                    {}
+                                  locobot_wx200/right_finger_link:
+                                    {}
+                              locobot_wx200/gripper_prop_link:
+                                {}
+                locobot_wx200/battery_link:
                   {}
-                locobot_wx200/caster_front_link:
-                  {}
-                locobot_wx200/cliff_sensor_front_link:
-                  {}
-                locobot_wx200/cliff_sensor_left_link:
-                  {}
-                locobot_wx200/cliff_sensor_right_link:
-                  {}
-                locobot_wx200/gyro_link:
-                  {}
-                locobot_wx200/plate_link:
-                  locobot_wx200/arm_base_link:
-                    locobot_wx200/shoulder_link:
-                      locobot_wx200/upper_arm_link:
-                        locobot_wx200/forearm_link:
-                          locobot_wx200/wrist_link:
-                            locobot_wx200/gripper_link:
-                              locobot_wx200/ee_arm_link:
-                                locobot_wx200/ar_tag_link:
-                                  {}
-                                locobot_wx200/gripper_bar_link:
-                                  locobot_wx200/fingers_link:
-                                    locobot_wx200/ee_gripper_link:
-                                      {}
-                                    locobot_wx200/left_finger_link:
-                                      {}
-                                    locobot_wx200/right_finger_link:
-                                      {}
-                                locobot_wx200/gripper_prop_link:
-                                  {}
-                  locobot_wx200/battery_link:
-                    {}
-                locobot_wx200/wheel_left_link:
-                  {}
-                locobot_wx200/wheel_right_link:
-                  {}
+              locobot_wx200/wheel_left_link:
+                {}
+              locobot_wx200/wheel_right_link:
+                {}
       Update Interval: 0
       Value: true
-    - Class: rviz/Image
+    - Alpha: 0.699999988
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
       Enabled: false
-      Image Topic: /locobot_wx200/camera/color/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
+      Name: Map
+      Topic: /locobot_wx200/rtabmap/grid_map
       Unreliable: false
+      Use Timestamp: false
       Value: false
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: /locobot_wx200/camera/color/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Image
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: ""
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: PointCloud2
+          Position Transformer: ""
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.00999999978
+          Style: Points
+          Topic: /locobot_wx200/camera/depth/color/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+      Enabled: false
+      Name: Camera
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -416,68 +457,72 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
-    - Class: rtabmap_ros/Info
+    - Class: rviz/Group
+      Displays:
+        - Class: rtabmap_ros/Info
+          Enabled: true
+          Name: Info
+          Topic: /locobot_wx200/rtabmap/info
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rtabmap_ros/MapCloud
+          Cloud decimation: 4
+          Cloud from scan: false
+          Cloud max depth (m): 4
+          Cloud min depth (m): 0
+          Cloud voxel size (m): 0.00999999978
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Download graph: false
+          Download map: false
+          Enabled: true
+          Filter ceiling (m): 0
+          Filter floor (m): 0
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: MapCloud
+          Node filtering angle (degrees): 30
+          Node filtering radius (m): 0
+          Position Transformer: XYZ
+          Size (Pixels): 3
+          Size (m): 0.00999999978
+          Style: Points
+          Topic: /locobot_wx200/rtabmap/mapData
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Class: rtabmap_ros/MapGraph
+          Enabled: true
+          Global loop closure: 255; 0; 0
+          Local loop closure: 255; 255; 0
+          Merged neighbor: 255; 170; 0
+          Name: MapGraph
+          Neighbor: 0; 0; 255
+          Topic: /locobot_wx200/rtabmap/mapGraph
+          Unreliable: false
+          User: 255; 0; 0
+          Value: true
+          Virtual: 255; 0; 255
       Enabled: false
-      Name: Info
-      Topic: /locobot_wx200/rtabmap/info
-      Unreliable: false
-      Value: false
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rtabmap_ros/MapCloud
-      Cloud decimation: 4
-      Cloud from scan: false
-      Cloud max depth (m): 4
-      Cloud min depth (m): 0
-      Cloud voxel size (m): 0.00999999978
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Download graph: false
-      Download map: false
-      Enabled: false
-      Filter ceiling (m): 0
-      Filter floor (m): 0
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: MapCloud
-      Node filtering angle (degrees): 30
-      Node filtering radius (m): 0
-      Position Transformer: XYZ
-      Size (Pixels): 3
-      Size (m): 0.00999999978
-      Style: Points
-      Topic: /locobot_wx200/rtabmap/mapData
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
-    - Alpha: 1
-      Class: rtabmap_ros/MapGraph
-      Enabled: false
-      Global loop closure: 255; 0; 0
-      Local loop closure: 255; 255; 0
-      Merged neighbor: 255; 170; 0
-      Name: MapGraph
-      Neighbor: 0; 0; 255
-      Topic: /locobot_wx200/rtabmap/mapGraph
-      Unreliable: false
-      User: 255; 0; 0
-      Value: false
-      Virtual: 255; 0; 255
+      Name: RtabmapRos
   Enabled: true
   Global Options:
     Background Color: 0; 176; 240
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: locobot_wx200/odom
     Frame Rate: 30
   Name: root
   Tools:

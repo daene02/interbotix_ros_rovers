@@ -11,6 +11,7 @@
   <arg name="use_lidar"                         default="false"/>
   <arg name="show_lidar"                        default="$(arg use_lidar)"/>
   <arg name="use_camera"                        default="false"/>
+  <arg name="filters"                           default=""/>
   <arg name="motor_configs"                     default="$(find interbotix_xslocobot_control)/config/$(arg robot_model).yaml"/>
   <arg name="load_configs"                      default="true"/>
 
@@ -86,6 +87,7 @@
   <include if="$(arg use_camera)" file="$(find realsense2_camera)/launch/rs_camera.launch" ns="$(arg robot_name)">
     <arg name="tf_prefix"		                      value="$(arg robot_name)/camera"/>
     <arg name="align_depth"                       value="true"/>
+    <arg name="filters"                           value="$(arg filters)"/>
   </include>
 
 </launch>

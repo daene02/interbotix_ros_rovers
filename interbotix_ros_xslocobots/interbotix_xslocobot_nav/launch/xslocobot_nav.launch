@@ -24,6 +24,7 @@
     <arg name="use_rviz"                          value="$(arg use_rviz)"/>
     <arg name="rviz_frame"                        value="map"/>
     <arg name="use_camera"                        value="$(arg use_camera)"/>
+    <arg name="filters"                           value="pointcloud"/>
     <arg name="use_base"                          value="true"/>
   </include>
 
@@ -42,5 +43,35 @@
     <arg name="scan_topic"                        value="/$(arg robot_name)/scan"/>
     <arg name="visual_odometry"                   value="false"/>
   </include>
+
+  <node
+    pkg="move_base"
+    type="move_base"
+    respawn="false"
+    name="move_base"
+    output="screen"
+    ns="$(arg robot_name)">
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/local_planner_params.yaml" command="load" />
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/move_base_params.yaml" command="load" />
+    <!-- <rosparam file="$(find interbotix_xslocobot_nav)/config/global_planner_params.yaml" command="load" /> -->
+    <!-- <rosparam file="$(find interbotix_xslocobot_nav)/config/navfn_global_planner_params.yaml" command="load" /> -->
+    <!-- external params file that could be loaded into the move_base namespace -->
+    <!-- <rosparam file="$(arg custom_param_file)" command="load" /> -->
+
+    <!-- reset frame_id parameters using user input data -->
+    <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/base_footprint"/>
+    <param unless="$(arg use_lidar)" name="global_costmap/observation_sources" value="d435"/>
+    <param name="local_costmap/global_frame" value="$(arg robot_name)/odom"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/base_footprint"/>
+    <param unless="$(arg use_lidar)" name="local_costmap/observation_sources" value="d435"/>
+
+    <!-- <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <remap from="scan" to="$(arg laser_topic)"/> -->
+  </node>
 
 </launch>
