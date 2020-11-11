@@ -14,7 +14,7 @@
   <arg     if="$(arg use_lidar)" name="grid_from_depth" default="--Grid/FromDepth false"/>
   <arg unless="$(arg use_lidar)" name="grid_from_depth" default="--Grid/FromDepth true"/>
 
-  <arg name="rtabmap_default_args"                      default="$(arg rtabmap_args) --Reg/Force3DoF true $(arg grid_from_depth)"/>
+  <arg name="rtabmap_default_args"                      default="$(arg rtabmap_args) --Reg/Force3DoF true --Vis/MinInliers 5 $(arg grid_from_depth)"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model)"/>
