@@ -16,7 +16,7 @@ obstacle_layer:
     data_type: LaserScan
     topic: scan
     marking: true
-    clearing: false
+    clearing: true
   d435:
     data_type: PointCloud2
     topic: rtabmap/local_grid_obstacle

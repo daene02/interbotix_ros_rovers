@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Image
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -156,17 +156,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        locobot_wx200/laser_frame_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         locobot_wx200/left_finger_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        locobot_wx200/lidar_tower_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -279,11 +269,7 @@ Visualization Manager:
           Value: true
         locobot_wx200/gyro_link:
           Value: true
-        locobot_wx200/laser_frame_link:
-          Value: true
         locobot_wx200/left_finger_link:
-          Value: true
-        locobot_wx200/lidar_tower_link:
           Value: true
         locobot_wx200/odom:
           Value: true
@@ -320,9 +306,6 @@ Visualization Manager:
                 locobot_wx200/camera_tower_link:
                   locobot_wx200/arm_cradle_link:
                     {}
-                  locobot_wx200/lidar_tower_link:
-                    locobot_wx200/laser_frame_link:
-                      {}
                   locobot_wx200/pan_link:
                     locobot_wx200/tilt_link:
                       locobot_wx200/camera_link:
@@ -408,7 +391,7 @@ Visualization Manager:
           Channel Name: intensity
           Class: rviz/PointCloud2
           Color: 255; 255; 255
-          Color Transformer: ""
+          Color Transformer: RGB8
           Decay Time: 0
           Enabled: true
           Invert Rainbow: false
@@ -417,13 +400,13 @@ Visualization Manager:
           Min Color: 0; 0; 0
           Min Intensity: 0
           Name: PointCloud2
-          Position Transformer: ""
+          Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
           Size (Pixels): 3
           Size (m): 0.00999999978
           Style: Points
-          Topic: /locobot_wx200/camera/depth/color/points
+          Topic: /locobot_wx200/rtabmap/local_grid_obstacle
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -570,7 +553,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2
+      Distance: 5.98114157
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
