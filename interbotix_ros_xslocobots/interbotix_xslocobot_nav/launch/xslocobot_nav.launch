@@ -73,6 +73,7 @@
     <param unless="$(arg use_lidar)" name="local_costmap/observation_sources" value="d435"/>
 
     <remap from="cmd_vel" to="mobile_base/commands/velocity"/>
+    <remap from="map" to="rtabmap/grid_map"/>
   </node>
 
 </launch>
