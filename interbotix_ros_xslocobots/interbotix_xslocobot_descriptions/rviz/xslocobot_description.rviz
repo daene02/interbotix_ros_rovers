@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: ""
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -305,82 +305,85 @@ Visualization Manager:
           Value: true
         locobot_wx200/wrist_link:
           Value: true
+        map:
+          Value: true
       Marker Scale: 0.150000006
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        locobot_wx200/odom:
-          locobot_wx200/base_footprint:
-            locobot_wx200/base_link:
-              locobot_wx200/camera_tower_link:
-                locobot_wx200/arm_cradle_link:
-                  {}
-                locobot_wx200/lidar_tower_link:
-                  locobot_wx200/laser_frame_link:
+        map:
+          locobot_wx200/odom:
+            locobot_wx200/base_footprint:
+              locobot_wx200/base_link:
+                locobot_wx200/camera_tower_link:
+                  locobot_wx200/arm_cradle_link:
                     {}
-                locobot_wx200/pan_link:
-                  locobot_wx200/tilt_link:
-                    locobot_wx200/camera_link:
-                      locobot_wx200/camera_aligned_depth_to_color_frame:
-                        locobot_wx200/camera_color_optical_frame:
+                  locobot_wx200/lidar_tower_link:
+                    locobot_wx200/laser_frame_link:
+                      {}
+                  locobot_wx200/pan_link:
+                    locobot_wx200/tilt_link:
+                      locobot_wx200/camera_link:
+                        locobot_wx200/camera_aligned_depth_to_color_frame:
+                          locobot_wx200/camera_color_optical_frame:
+                            {}
+                        locobot_wx200/camera_color_frame:
                           {}
-                      locobot_wx200/camera_color_frame:
-                        {}
-                      locobot_wx200/camera_depth_frame:
-                        locobot_wx200/camera_depth_optical_frame:
-                          {}
-              locobot_wx200/caster_back_link:
-                {}
-              locobot_wx200/caster_front_link:
-                {}
-              locobot_wx200/cliff_sensor_front_link:
-                {}
-              locobot_wx200/cliff_sensor_left_link:
-                {}
-              locobot_wx200/cliff_sensor_right_link:
-                {}
-              locobot_wx200/gyro_link:
-                {}
-              locobot_wx200/plate_link:
-                locobot_wx200/arm_base_link:
-                  locobot_wx200/shoulder_link:
-                    locobot_wx200/upper_arm_link:
-                      locobot_wx200/forearm_link:
-                        locobot_wx200/wrist_link:
-                          locobot_wx200/gripper_link:
-                            locobot_wx200/ee_arm_link:
-                              locobot_wx200/ar_tag_link:
-                                {}
-                              locobot_wx200/gripper_bar_link:
-                                locobot_wx200/fingers_link:
-                                  locobot_wx200/ee_gripper_link:
-                                    {}
-                                  locobot_wx200/left_finger_link:
-                                    {}
-                                  locobot_wx200/right_finger_link:
-                                    {}
-                              locobot_wx200/gripper_prop_link:
-                                {}
-                locobot_wx200/battery_link:
+                        locobot_wx200/camera_depth_frame:
+                          locobot_wx200/camera_depth_optical_frame:
+                            {}
+                locobot_wx200/caster_back_link:
                   {}
-              locobot_wx200/wheel_left_link:
-                {}
-              locobot_wx200/wheel_right_link:
-                {}
+                locobot_wx200/caster_front_link:
+                  {}
+                locobot_wx200/cliff_sensor_front_link:
+                  {}
+                locobot_wx200/cliff_sensor_left_link:
+                  {}
+                locobot_wx200/cliff_sensor_right_link:
+                  {}
+                locobot_wx200/gyro_link:
+                  {}
+                locobot_wx200/plate_link:
+                  locobot_wx200/arm_base_link:
+                    locobot_wx200/shoulder_link:
+                      locobot_wx200/upper_arm_link:
+                        locobot_wx200/forearm_link:
+                          locobot_wx200/wrist_link:
+                            locobot_wx200/gripper_link:
+                              locobot_wx200/ee_arm_link:
+                                locobot_wx200/ar_tag_link:
+                                  {}
+                                locobot_wx200/gripper_bar_link:
+                                  locobot_wx200/fingers_link:
+                                    locobot_wx200/ee_gripper_link:
+                                      {}
+                                    locobot_wx200/left_finger_link:
+                                      {}
+                                    locobot_wx200/right_finger_link:
+                                      {}
+                                locobot_wx200/gripper_prop_link:
+                                  {}
+                  locobot_wx200/battery_link:
+                    {}
+                locobot_wx200/wheel_left_link:
+                  {}
+                locobot_wx200/wheel_right_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Name: Map
       Topic: /locobot_wx200/rtabmap/grid_map
       Unreliable: false
       Use Timestamp: false
-      Value: false
+      Value: true
     - Class: rviz/Group
       Displays:
         - Class: rviz/Image
@@ -518,11 +521,35 @@ Visualization Manager:
           Virtual: 255; 0; 255
       Enabled: false
       Name: RtabmapRos
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 0.699999988
+          Class: rviz/Map
+          Color Scheme: costmap
+          Draw Behind: false
+          Enabled: false
+          Name: Global Costmap
+          Topic: /locobot_wx200/move_base/global_costmap/costmap
+          Unreliable: false
+          Use Timestamp: false
+          Value: false
+        - Alpha: 0.699999988
+          Class: rviz/Map
+          Color Scheme: costmap
+          Draw Behind: false
+          Enabled: true
+          Name: Local Costmap
+          Topic: /locobot_wx200/move_base/local_costmap/costmap
+          Unreliable: false
+          Use Timestamp: false
+          Value: true
+      Enabled: false
+      Name: Move Base
   Enabled: true
   Global Options:
     Background Color: 0; 176; 240
     Default Light: true
-    Fixed Frame: locobot_wx200/odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
