@@ -44,6 +44,7 @@
     <arg name="visual_odometry"                   value="false"/>
     <arg name="imu_topic"                         value="/$(arg robot_name)/imu/data"/>
     <arg name="gps_topic"                         value="/$(arg robot_name)/gps/fix"/>
+    <arg name="user_data_async_topic"             value="/$(arg robot_name)/user_data_async"/>
   </include>
 
   <node
