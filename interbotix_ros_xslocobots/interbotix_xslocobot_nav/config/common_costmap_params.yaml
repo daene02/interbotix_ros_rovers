@@ -19,6 +19,6 @@ obstacle_layer:
     clearing: false
   d435:
     data_type: PointCloud2
-    topic: rtabmap/cloud_obstacles
+    topic: rtabmap/local_grid_obstacle
     marking: true
     clearing: true
