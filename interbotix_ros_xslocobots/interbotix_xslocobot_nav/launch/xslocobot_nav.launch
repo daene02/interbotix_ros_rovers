@@ -17,7 +17,7 @@
   <!-- <arg     if="$(arg localization)" name="min_inliers"  default="Vis/MinInliers 6"/>
   <arg unless="$(arg localization)" name="min_inliers"  default="Vis/MinInliers 20"/> -->
 
-  <arg name="rtabmap_default_args"                      default="$(arg rtabmap_args) --Reg/Force3DoF true $(arg min_inliers) $(arg grid_from_depth)"/>
+  <arg name="rtabmap_default_args"                      default="$(arg rtabmap_args) --Reg/Force3DoF true $(arg grid_from_depth)"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model)"/>
