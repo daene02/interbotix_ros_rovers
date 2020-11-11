@@ -42,6 +42,8 @@
     <arg name="subscribe_scan"                    value="$(arg use_lidar)"/>
     <arg name="scan_topic"                        value="/$(arg robot_name)/scan"/>
     <arg name="visual_odometry"                   value="false"/>
+    <arg name="imu_topic"                         value="/$(arg robot_name)/imu/data"/>
+    <arg name="gps_topic"                         value="/$(arg robot_name)/gps/fix"/>
   </include>
 
   <node
