@@ -71,9 +71,7 @@
     <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/base_footprint"/>
     <param unless="$(arg use_lidar)" name="local_costmap/observation_sources" value="d435"/>
 
-    <!-- <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
-    <remap from="odom" to="$(arg odom_topic)"/>
-    <remap from="scan" to="$(arg laser_topic)"/> -->
+    <remap from="cmd_vel" to="mobile_base/commands/velocity"/>
   </node>
 
 </launch>

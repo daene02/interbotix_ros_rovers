@@ -16,7 +16,7 @@ obstacle_layer:
     data_type: LaserScan
     topic: scan
     marking: true
-    clearing: true
+    clearing: false
   d435:
     data_type: PointCloud2
     topic: camera/depth/color/points
