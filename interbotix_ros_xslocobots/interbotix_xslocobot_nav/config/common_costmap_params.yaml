@@ -19,6 +19,6 @@ obstacle_layer:
     clearing: true
   d435:
     data_type: PointCloud2
-    topic: camera/depth/color/points/filtered
+    topic: rtabmap/depth/color/obstacles
     marking: true
     clearing: true
