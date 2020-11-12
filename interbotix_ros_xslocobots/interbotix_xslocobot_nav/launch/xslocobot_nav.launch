@@ -51,22 +51,22 @@
       <remap from="rgb/image"        to="/$(arg robot_name)/camera/color/image_raw"/>
       <remap from="depth/image"      to="/$(arg robot_name)/camera/aligned_depth_to_color/image_raw"/>
       <remap from="rgb/camera_info"  to="/$(arg robot_name)/camera/color/camera_info"/>
-      <remap from="rgbd_image"       to="/$(arg robot_name)/camera/rgbd_image"/> <!-- output -->
+      <remap from="rgbd_image"       to="/$(arg robot_name)/rtabmap/rgbd_image"/> <!-- output -->
       <param name="approx_sync"       value="false"/>
     </node>
 
     <node pkg="nodelet" type="nodelet" name="points_xyzrgb" args="load rtabmap_ros/point_cloud_xyzrgb /$(arg robot_name)/camera/realsense2_camera_manager" output="screen">
-      <remap from="rgbd_image"       to="/$(arg robot_name)/camera/rgbd_image"/>
-      <remap from="cloud"            to="/$(arg robot_name)/camera/depth/color/voxels"/>
+      <remap from="rgbd_image"       to="/$(arg robot_name)/rtabmap/rgbd_image"/>
+      <remap from="cloud"            to="/$(arg robot_name)/rtabmap/depth/color/voxels"/>
       <param name="decimation"  value="4"/>
       <param name="voxel_size"  value="0.05"/>
       <param name="approx_sync" value="false"/>
     </node>
 
     <node pkg="nodelet" type="nodelet" name="obstacle_detection" args="load rtabmap_ros/obstacles_detection /$(arg robot_name)/camera/realsense2_camera_manager" output="screen">
-      <remap from="cloud"            to="/$(arg robot_name)/camera/depth/color/voxels"/>
-      <remap from="ground"           to="/$(arg robot_name)/camera/depth/color/ground"/>
-      <remap from="obstacles"        to="/$(arg robot_name)/camera/depth/color/obstacles"/>
+      <remap from="cloud"            to="/$(arg robot_name)/rtabmap/depth/color/voxels"/>
+      <remap from="ground"           to="/$(arg robot_name)/rtabmap/depth/color/ground"/>
+      <remap from="obstacles"        to="/$(arg robot_name)/rtabmap/depth/color/obstacles"/>
       <param name="frame_id"         value="$(arg robot_name)/base_footprint"/>
     </node>
 
