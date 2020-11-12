@@ -19,6 +19,6 @@ obstacle_layer:
     clearing: true
   d435:
     data_type: PointCloud2
-    topic: camera/color/depth/points/filtered
+    topic: camera/depth/color/points/filtered
     marking: true
     clearing: true
