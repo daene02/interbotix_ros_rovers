@@ -93,7 +93,7 @@
   </node>
 
   <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" ns="$(arg robot_name)"/>
-  <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+  <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen" ns="$(arg robot_name)">
    <remap from="~input" to="camera/depth/color/points" />
    <remap from="~output" to="camera/depth/color/points/downsampled"/>
    <rosparam>
