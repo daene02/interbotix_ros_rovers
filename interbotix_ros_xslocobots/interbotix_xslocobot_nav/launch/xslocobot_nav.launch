@@ -11,13 +11,24 @@
   <arg name="localization"                      default="false"/>
   <arg name="rtabmap_args"                      default=""/>
 
-  <arg     if="$(arg use_lidar)" name="grid_from_depth" default="--Grid/FromDepth false"/>
-  <arg unless="$(arg use_lidar)" name="grid_from_depth" default="--Grid/FromDepth true"/>
+  <arg     if="$(arg use_lidar)" name="rtabmap_default_args" default="$(arg rtabmap_args)
+                                                                      --RGBD/NeighborLinkRefining true
+                                                                      --RGBD/ProximityBySpace true
+                                                                      --RGBD/AngularUpdate 0.01
+                                                                      --RGBD/LinearUpdate 0.01
+                                                                      --RGBD/OptimizeFromGraphEnd false
+                                                                      --Grid/FromDepth false
+                                                                      --Reg/Force3DoF true
+                                                                      --Reg/Strategy 1
+                                                                      --Icp/VoxelSize 0.05
+                                                                      --Icp/MaxCorrespondenceDistance 0.1"/>
 
-  <!-- <arg     if="$(arg localization)" name="min_inliers"  default="Vis/MinInliers 6"/>
-  <arg unless="$(arg localization)" name="min_inliers"  default="Vis/MinInliers 20"/> -->
-
-  <arg name="rtabmap_default_args"                      default="$(arg rtabmap_args) --Reg/Force3DoF true $(arg grid_from_depth)"/>
+  <arg unless="$(arg use_lidar)" name="rtabmap_default_args" default="$(arg rtabmap_args)
+                                                                      --RGBD/AngularUpdate 0.01
+                                                                      --RGBD/LinearUpdate 0.01
+                                                                      --RGBD/OptimizeFromGraphEnd false
+                                                                      --Grid/FromDepth true
+                                                                      --Reg/Force3DoF true"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model)"/>
