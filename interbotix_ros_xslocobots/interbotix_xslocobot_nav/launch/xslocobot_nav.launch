@@ -68,7 +68,6 @@
       <remap from="ground"           to="/$(arg robot_name)/camera/depth/color/ground"/>
       <remap from="obstacles"        to="/$(arg robot_name)/camera/depth/color/obstacles"/>
       <param name="frame_id"         value="$(arg robot_name)/base_footprint"/>
-      <param name="max_obstacles_height" value="0.7"/>
     </node>
 
     <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_default_args)">
