@@ -14,6 +14,7 @@
   <arg     if="$(arg use_lidar)" name="rtabmap_default_args" default="$(arg rtabmap_args)
                                                                       --RGBD/NeighborLinkRefining true
                                                                       --RGBD/ProximityBySpace true
+                                                                      --RGBD/ProximityPathMaxNeighbors 10
                                                                       --RGBD/AngularUpdate 0.01
                                                                       --RGBD/LinearUpdate 0.01
                                                                       --RGBD/OptimizeFromGraphEnd false
