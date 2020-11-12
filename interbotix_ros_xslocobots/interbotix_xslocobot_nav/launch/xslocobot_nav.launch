@@ -92,7 +92,7 @@
     <remap from="odom" to="mobile_base/odom"/>
   </node>
 
-  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" ns="$(arg robot_name)"/>
+  <!-- <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" ns="$(arg robot_name)"/>
   <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen" ns="$(arg robot_name)">
    <remap from="~input" to="camera/depth/color/points" />
    <remap from="~output" to="camera/depth/color/points/downsampled"/>
@@ -103,7 +103,7 @@
      leaf_size: 0.02
    </rosparam>
  </node>
-  <!-- Run a passthrough filter to get rid of the ground -->
+
   <node pkg="nodelet" type="nodelet" name="passthrough" args="load pcl/PassThrough pcl_manager" output="screen" ns="$(arg robot_name)">
     <remap from="~input" to="camera/depth/color/points/downsampled"/>
     <remap from="~output" to="camera/depth/color/points/filtered"/>
@@ -111,6 +111,6 @@
     <param name="filter_limit_min" value="0.01"/>
     <param name="filter_limit_max" value="0.7"/>
     <param name="input_frame" value="$(arg robot_name)/base_footprint"/>
-  </node>
+  </node> -->
 
 </launch>
