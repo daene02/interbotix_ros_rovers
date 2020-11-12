@@ -63,7 +63,7 @@
       <param name="approx_sync" value="false"/>
     </node>
 
-    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(rtabmap_default_args)">
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_default_args)">
       <param name="subscribe_depth" value="false"/>
       <param name="subscribe_rgb"   value="false"/>
       <param name="subscribe_rgbd"  value="true"/>
