@@ -91,4 +91,16 @@
     <remap from="map" to="rtabmap/grid_map"/>
   </node>
 
+  <!-- Run a passthrough filter to get rid of the ground -->
+  <node pkg="nodelet" type="nodelet" name="passthrough" args="load pcl/PassThrough realsense2_camera_manager" output="screen" ns="$(arg robot_name)/camera">
+    <remap from="~input" to="color/depth/points"/>
+    <remap from="~output" to="color/depth/points/filtered"/>
+    <rosparam>
+      filter_field_name: z
+      filter_limit_min: 0.01
+      filter_limit_max: 1.5
+      filter_limit_negative: False
+    </rosparam>
+  </node>
+
 </launch>
