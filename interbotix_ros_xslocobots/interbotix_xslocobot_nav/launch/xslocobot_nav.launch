@@ -20,6 +20,8 @@
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth false
                                                                       --Grid/MaxObstacleHeight 0.7
+                                                                      --Grid/NoiseFilteringRadius 0.05
+                                                                      --Grid/NoiseFilteringMinNeighbors 5
                                                                       --Reg/Force3DoF true
                                                                       --Reg/Strategy 1
                                                                       --Icp/VoxelSize 0.05
@@ -31,6 +33,8 @@
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth true
                                                                       --Grid/MaxObstacleHeight 0.7
+                                                                      --Grid/NoiseFilteringRadius 0.05
+                                                                      --Grid/NoiseFilteringMinNeighbors 5
                                                                       --Reg/Force3DoF true"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
