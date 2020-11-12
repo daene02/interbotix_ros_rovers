@@ -45,34 +45,78 @@
     <arg name="use_base"                          value="true"/>
   </include>
 
-  <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="load rtabmap_ros/rgbd_sync realsense2_camera_manager" output="screen" ns="$(arg robot_name)/rtabmap">
-    <remap from="rgb/image"        to="/$(arg robot_name)/camera/color/image_raw"/>
-    <remap from="depth/image"      to="/$(arg robot_name)/camera/aligned_depth_to_color/image_raw"/>
-    <remap from="rgb/camera_info"  to="/$(arg robot_name)/camera/color/camera_info"/>
-    <remap from="rgbd_image"       to="/$(arg robot_name)/camera/rgbd_image"/> <!-- output -->
-    <param name="approx_sync"       value="false"/>
-  </node>
+  <group ns="$(arg robot_name)/rtabmap">
 
-  <include file="$(find rtabmap_ros)/launch/rtabmap.launch" ns="$(arg robot_name)">
+    <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="load rtabmap_ros/rgbd_sync realsense2_camera_manager" output="screen"/>
+      <remap from="rgb/image"        to="/$(arg robot_name)/camera/color/image_raw"/>
+      <remap from="depth/image"      to="/$(arg robot_name)/camera/aligned_depth_to_color/image_raw"/>
+      <remap from="rgb/camera_info"  to="/$(arg robot_name)/camera/color/camera_info"/>
+      <remap from="rgbd_image"       to="/$(arg robot_name)/camera/rgbd_image"/> <!-- output -->
+      <param name="approx_sync"       value="false"/>
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="points_xyzrgb" args="load rtabmap_ros/point_cloud_xyzrgb realsense2_camera_manager" output="screen"/>
+      <remap from="rgbd_image"       to="/$(arg robot_name)/camera/rgbd_image"/>
+      <remap from="cloud"            to="/$(arg robot_name)/camera/depth/color/voxels"/>
+      <param name="decimation"  value="4"/>
+      <param name="voxel_size"  value="0.05"/>
+      <param name="approx_sync" value="false"/>
+    </node>
+
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(rtabmap_default_args)">
+      <param name="subscribe_depth" value="false"/>
+      <param name="subscribe_rgb"   value="false"/>
+      <param name="subscribe_rgbd"  value="true"/>
+      <param name="subscribe_stereo" value="false"/>
+      <param name="subscribe_scan" value="$(arg use_lidar)"/>
+      <param name="subscribe_scan_cloud" value="false"/>
+      <param name="subscribe_scan_descriptor" value="false"/>
+      <param name="subscribe_user_data" value="false"/>
+      <param name="subscribe_odom_info" value="false"/>
+      <param name="frame_id" value="$(arg robot_name)/base_footprint"/>
+      <param name="map_frame_id" value="map"/>
+      <param name="odom_frame_id" value="$(arg robot_name)/odom"/>
+      <param name="publish_tf" value="true"/>
+      <param name="odom_tf_angular_variance" value="1"/>
+      <param name="odom_tf_linear_variance" value="1"/>
+      <param name="odom_sensor_synce" value="false"/>
+      <param name="wait_for_transform_duration" value="0.2"/>
+      <param name="database_path" value="~/.ros/rtabmap.db"/>
+      <param name="approx_sync" value="true"/>
+      <param name="queue_size" value="10"/>
+      <param name="tag_linear_variance" value="0.0001"/>
+      <param name="tag_angular_variance" value="9999"/>
+
+      <remap from="rgbd_image" to="/$(arg robot_name)/camera/rgbd_image"/>
+      <remap from="scan" to="/$(arg robot_name)/scan"/>
+
+      <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
+      <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
+      <param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/>
+
+    </node>
+  </group>
+
+  <!-- <include file="$(find rtabmap_ros)/launch/rtabmap.launch" ns="$(arg robot_name)">
     <arg name="rtabmapviz"                        value="$(arg use_rtabmapviz)"/>
     <arg name="localization"                      value="$(arg localization)"/>
     <arg name="frame_id"                          value="$(arg robot_name)/base_footprint"/>
     <arg name="odom_frame_id"                     value="$(arg robot_name)/odom"/>
     <arg name="map_frame_id"                      value="map"/>
     <arg name="args"		                          value="$(arg rtabmap_default_args)"/>
-    <!-- <arg name="rgb_topic"                         value="/$(arg robot_name)/camera/color/image_raw"/>
+    <arg name="rgb_topic"                         value="/$(arg robot_name)/camera/color/image_raw"/>
     <arg name="depth_topic"                       value="/$(arg robot_name)/camera/aligned_depth_to_color/image_raw"/>
     <arg name="camera_info_topic"                 value="/$(arg robot_name)/camera/color/camera_info"/>
-    <arg name="depth_camera_info_topic"           value="/$(arg robot_name)/camera/depth/camera_info"/> -->
+    <arg name="depth_camera_info_topic"           value="/$(arg robot_name)/camera/depth/camera_info"/>
     <arg name="subscribe_rgbd"                    value="true"/>
     <arg name="subscribe_scan"                    value="$(arg use_lidar)"/>
-    <arg name="rgbd_topic"                        value="/$(arg robot_name)/camera/rgbd_image"/>
+    <arg name="rgbd_topic"                        value="/$(arg robot_name)/camera/rgbd_image"
     <arg name="scan_topic"                        value="/$(arg robot_name)/scan"/>
     <arg name="visual_odometry"                   value="false"/>
     <arg name="imu_topic"                         value="/$(arg robot_name)/imu/data"/>
     <arg name="gps_topic"                         value="/$(arg robot_name)/gps/fix"/>
     <arg name="user_data_async_topic"             value="/$(arg robot_name)/user_data_async"/>
-  </include>
+  </include> -->
 
   <node
     pkg="move_base"
