@@ -21,8 +21,6 @@
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth false
                                                                       --Grid/MaxObstacleHeight 0.7
-                                                                      --Grid/NoiseFilteringRadius 0.05
-                                                                      --Grid/NoiseFilteringMinNeighbors 5
                                                                       --Grid/NormalsSegmentation: false
                                                                       --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
@@ -40,8 +38,6 @@
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth true
                                                                       --Grid/MaxObstacleHeight 0.7
-                                                                      --Grid/NoiseFilteringRadius 0.05
-                                                                      --Grid/NoiseFilteringMinNeighbors 5
                                                                       --Grid/NormalsSegmentation false
                                                                       --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
