@@ -146,8 +146,6 @@
     </node>
   </group>
 
-  </group>
-
   <node
     pkg="move_base"
     type="move_base"
