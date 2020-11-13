@@ -2,7 +2,7 @@ robot_radius: 0.25
 
 plugins:
 - {name: static_layer, type: "costmap_2d::StaticLayer"}
-- {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+- {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
 - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
 
 obstacle_layer:
@@ -14,7 +14,7 @@ obstacle_layer:
     data_type: LaserScan
     topic: scan
     marking: true
-    clearing: true
+    clearing: false
     inf_is_valid: true
   d435:
     data_type: PointCloud2
@@ -23,4 +23,4 @@ obstacle_layer:
     clearing: true
 
 inflation_layer:
-  inflation_radius: 0.1
+  inflation_radius: 0.2
