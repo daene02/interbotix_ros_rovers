@@ -17,6 +17,7 @@
                                                                       --RGBD/ProximityPathMaxNeighbors 10
                                                                       --RGBD/AngularUpdate 0.01
                                                                       --RGBD/LinearUpdate 0.01
+                                                                      --RGBD/LocalRadius 5
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth false
                                                                       --Grid/MaxObstacleHeight 0.7
@@ -25,13 +26,17 @@
                                                                       --Grid/NormalsSegmentation: false
                                                                       --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
-                                                                      --Reg/Strategy 2
+                                                                      --Reg/Strategy 1
+                                                                      --Mem/STMSize 30
                                                                       --Icp/VoxelSize 0.05
+                                                                      --Icp/CorrespondenceRatio 0.4
                                                                       --Icp/MaxCorrespondenceDistance 0.1"/>
 
   <arg unless="$(arg use_lidar)" name="rtabmap_default_args" default="$(arg rtabmap_args)
+                                                                      --RGBD/NeighborLinkRefining true
                                                                       --RGBD/AngularUpdate 0.01
                                                                       --RGBD/LinearUpdate 0.01
+                                                                      --RGBD/LocalRadius 5
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth true
                                                                       --Grid/MaxObstacleHeight 0.7
@@ -39,7 +44,8 @@
                                                                       --Grid/NoiseFilteringMinNeighbors 5
                                                                       --Grid/NormalsSegmentation false
                                                                       --Grid/RayTracing true
-                                                                      --Reg/Force3DoF true"/>
+                                                                      --Reg/Force3DoF true
+                                                                      --Mem/STMSize 30"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model)"/>
