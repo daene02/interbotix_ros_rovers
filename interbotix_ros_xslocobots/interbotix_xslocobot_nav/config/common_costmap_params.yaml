@@ -2,7 +2,7 @@ robot_radius: 0.25
 
 plugins:
 - {name: static_layer, type: "costmap_2d::StaticLayer"}
-- {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
+- {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
 - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
 
 obstacle_layer:
@@ -10,7 +10,6 @@ obstacle_layer:
   raytrace_range: 13.0
   max_obstacle_height: 0.7
   observation_sources: rplidar d435
-  publish_voxel_map: true
   rplidar:
     data_type: LaserScan
     topic: scan
