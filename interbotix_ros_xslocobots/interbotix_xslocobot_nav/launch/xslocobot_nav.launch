@@ -22,8 +22,10 @@
                                                                       --Grid/MaxObstacleHeight 0.7
                                                                       --Grid/NoiseFilteringRadius 0.05
                                                                       --Grid/NoiseFilteringMinNeighbors 5
+                                                                      --Grid/NormalsSegmentation: false
+                                                                      --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
-                                                                      --Reg/Strategy 1
+                                                                      --Reg/Strategy 2
                                                                       --Icp/VoxelSize 0.05
                                                                       --Icp/MaxCorrespondenceDistance 0.1"/>
 
@@ -35,6 +37,8 @@
                                                                       --Grid/MaxObstacleHeight 0.7
                                                                       --Grid/NoiseFilteringRadius 0.05
                                                                       --Grid/NoiseFilteringMinNeighbors 5
+                                                                      --Grid/NormalsSegmentation false
+                                                                      --Grid/RayTracing true
                                                                       --Reg/Force3DoF true"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
