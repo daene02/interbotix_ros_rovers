@@ -5,11 +5,12 @@
   <arg name="use_lidar"                         default="true"/>
   <arg name="external_urdf_loc"                 default=""/>
   <arg name="use_rviz"                          default="false"/>
-  <arg name="use_rtabmapviz"                    default="false"/>
   <arg name="use_camera"                        default="true"/>
   <arg name="dof"                               default="5"/>
   <arg name="localization"                      default="false"/>
   <arg name="rtabmap_args"                      default=""/>
+  <arg name="use_rtabmapviz"                    default="false"/>
+  <arg name="rtabmapviz_args"                   default=""/>
 
   <arg     if="$(arg use_lidar)" name="rtabmap_default_args" default="$(arg rtabmap_args)
                                                                       --RGBD/NeighborLinkRefining true
@@ -94,7 +95,12 @@
       <remap from="obstacles"                     to="depth/color/obstacles"/>
     </node>
 
-    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_default_args)">
+    <node
+      name="rtabmap"
+      pkg="rtabmap_ros"
+      type="rtabmap"
+      output="screen"
+      args="$(arg rtabmap_default_args)">
       <param name="subscribe_depth"               value="false"/>
       <param name="subscribe_rgb"                 value="false"/>
       <param name="subscribe_rgbd"                value="true"/>
@@ -120,9 +126,26 @@
       <param name="Mem/InitWMWithAllNodes"        value="$(arg localization)"/>
       <param     if="$(arg localization)" name="Mem/IncrementalMemory" value="false"/>
       <param unless="$(arg localization)" name="Mem/IncrementalMemory" value="true"/>
-      <remap from="rgbd_image"                    to="/$(arg robot_name)/rtabmap/rgbd_image"/>
       <remap from="scan"                          to="/$(arg robot_name)/scan"/>
+      <remap from="initialpose"                   to="/$(arg robot_name)/initialpose"/>
+      <remap from="goal_out"                      to="/$(arg robot_name)/move_base_simple/goal"/>
     </node>
+
+    <node if="$(arg use_rtabmapviz)"
+      pkg="rtabmap_ros"
+      type="rtabmapviz"
+      name="rtabmapviz"
+      args="$(arg rtabmapviz_args)"
+      output="screen">
+      <param name="subscribe_rgbd"     value="true"/>
+      <param name="subscribe_scan"     value="$(arg use_lidar)"/>
+      <param name="frame_id"           value="$(arg robot_name)/base_footprint"/>
+      <param name="odom_frame_id"      value="$(arg robot_name)/odom"/>
+      <param name="wait_for_transform" value="true"/>
+      <remap from="scan"               to="/$(arg robot_name)/scan"/>
+    </node>
+  </group>
+
   </group>
 
   <node
@@ -138,8 +161,6 @@
     <rosparam file="$(find interbotix_xslocobot_nav)/config/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find interbotix_xslocobot_nav)/config/local_planner_params.yaml" command="load" />
     <rosparam file="$(find interbotix_xslocobot_nav)/config/move_base_params.yaml" command="load" />
-    <!-- <rosparam file="$(find interbotix_xslocobot_nav)/config/global_planner_params.yaml" command="load" /> -->
-    <!-- <rosparam file="$(find interbotix_xslocobot_nav)/config/navfn_global_planner_params.yaml" command="load" /> -->
 
     <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/base_footprint"/>
     <param unless="$(arg use_lidar)" name="global_costmap/observation_sources" value="d435"/>
