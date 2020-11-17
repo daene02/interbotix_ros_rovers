@@ -15,6 +15,7 @@
   <arg name="controller"                        default="ps4"/>
   <arg name="threshold"                         default="0.75"/>
   <arg name="use_keyboard"                      default="false"/>
+  <arg name="camera_tilt_angle"                 default="0.2618"/>
 
   <arg     if="$(arg use_lidar)" name="rtabmap_default_args" default="$(arg rtabmap_args)
                                                                       --RGBD/NeighborLinkRefining true
@@ -183,5 +184,13 @@
   </include>
 
   <include if="$(arg use_keyboard)" file="$(find kobuki_keyop)/launch/keyop.launch" ns="$(arg robot_name)"/>
+
+  <node
+    pkg="rostopic"
+    type="rostopic"
+    name="camera_tilt"
+    args="pub -1 commands/joint_group interbotix_xs_sdk/JointGroupCommand --latch '{name: 'camera', cmd: [0, $(arg camera_tilt_angle)]}'"
+    ns="$(arg robot_name)">
+  </node>
 
 </launch>
