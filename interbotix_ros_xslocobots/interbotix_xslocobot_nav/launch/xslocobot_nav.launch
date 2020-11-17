@@ -26,7 +26,6 @@
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth false
                                                                       --Grid/MaxObstacleHeight 0.7
-                                                                      --Grid/NormalsSegmentation: false
                                                                       --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
                                                                       --Reg/Strategy 1
@@ -43,7 +42,6 @@
                                                                       --RGBD/OptimizeFromGraphEnd false
                                                                       --Grid/FromDepth true
                                                                       --Grid/MaxObstacleHeight 0.7
-                                                                      --Grid/NormalsSegmentation false
                                                                       --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
                                                                       --Mem/STMSize 30"/>
