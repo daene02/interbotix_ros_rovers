@@ -1,8 +1,8 @@
 <launch>
 
-  <arg name="robot_model"                       default="locobot_wx200"/>
+  <arg name="robot_model"                       default=""/>
   <arg name="robot_name"                        default="$(arg robot_model)"/>
-  <arg name="use_lidar"                         default="true"/>
+  <arg name="use_lidar"                         default="false"/>
   <arg name="external_urdf_loc"                 default=""/>
   <arg name="use_rviz"                          default="false"/>
   <arg name="use_camera"                        default="true"/>
