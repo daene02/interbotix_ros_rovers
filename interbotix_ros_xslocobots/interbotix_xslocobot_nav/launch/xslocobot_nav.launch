@@ -169,6 +169,7 @@
     <param name="local_costmap/global_frame"      value="$(arg robot_name)/odom"/>
     <param name="local_costmap/robot_base_frame"  value="$(arg robot_name)/base_footprint"/>
     <param unless="$(arg use_lidar)" name="local_costmap/observation_sources"  value="d435"/>
+    <param name="DWAPlannerROS/global_frame_id" value="$(arg robot_name)/odom"/>
 
     <remap from="cmd_vel"                         to="mobile_base/commands/velocity"/>
     <remap from="map"                             to="rtabmap/grid_map"/>
