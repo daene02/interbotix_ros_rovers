@@ -158,12 +158,12 @@
     name="move_base"
     output="screen"
     ns="$(arg robot_name)">
-    <rosparam     if="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/local_costmap_all_params.yaml"  command="load"/>
+    <rosparam     if="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/local_costmap_all_params.yaml" command="load"/>
     <rosparam     if="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/global_costmap_all_params.yaml" command="load"/>
-    <rosparam unless="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/local_costmap_depth_params.yaml"  command="load"/>
+    <rosparam unless="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/local_costmap_depth_params.yaml" command="load"/>
     <rosparam unless="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/global_costmap_depth_params.yaml" command="load"/>
-    <rosparam file="$(interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="global_costmap"/>
-    <rosparam file="$(interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="local_costmap"/>
     <rosparam file="$(find interbotix_xslocobot_nav)/config/local_planner_params.yaml"  command="load"/>
     <rosparam file="$(find interbotix_xslocobot_nav)/config/global_planner_params.yaml" command="load"/>
     <rosparam file="$(find interbotix_xslocobot_nav)/config/move_base_params.yaml"      command="load"/>
