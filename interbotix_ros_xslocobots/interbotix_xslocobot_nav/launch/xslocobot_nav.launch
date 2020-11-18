@@ -156,8 +156,10 @@
     name="move_base"
     output="screen"
     ns="$(arg robot_name)">
-    <rosparam file="$(find interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="global_costmap"/>
-    <rosparam file="$(find interbotix_xslocobot_nav)/config/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam if="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/common_costmap_laser_depth_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam if="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/common_costmap_laser_depth_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam unless="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/common_costmap_depth_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam unless="$(arg use_lidar)" file="$(find interbotix_xslocobot_nav)/config/common_costmap_depth_params.yaml" command="load" ns="local_costmap"/>
     <rosparam file="$(find interbotix_xslocobot_nav)/config/local_costmap_params.yaml"  command="load"/>
     <rosparam file="$(find interbotix_xslocobot_nav)/config/global_costmap_params.yaml" command="load"/>
     <rosparam file="$(find interbotix_xslocobot_nav)/config/local_planner_params.yaml"  command="load"/>
@@ -165,22 +167,12 @@
     <rosparam file="$(find interbotix_xslocobot_nav)/config/move_base_params.yaml"      command="load"/>
 
     <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/base_footprint"/>
-    <param unless="$(arg use_lidar)" name="global_costmap/observation_sources" value="d435"/>
     <param name="local_costmap/global_frame"      value="$(arg robot_name)/odom"/>
     <param name="local_costmap/robot_base_frame"  value="$(arg robot_name)/base_footprint"/>
-    <param unless="$(arg use_lidar)" name="local_costmap/observation_sources"  value="d435"/>
 
     <remap from="cmd_vel"                         to="mobile_base/commands/velocity"/>
     <remap from="map"                             to="rtabmap/grid_map"/>
     <remap from="odom"                            to="mobile_base/odom"/>
-  </node>
-
-  <node
-    pkg="costmap_2d"
-    type="costmap_2d_markers"
-    name="costmap_2d_markers"
-    ns="$(arg robot_name)">
-    <remap from="voxel_grid" to="move_base/local_costmap/obstacle_layer/voxel_grid"/>
   </node>
 
   <include if="$(arg use_joy)" file="$(find interbotix_xslocobot_joy)/launch/xslocobot_joy.launch">
