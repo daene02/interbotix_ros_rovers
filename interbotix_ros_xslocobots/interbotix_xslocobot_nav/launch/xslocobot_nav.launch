@@ -45,6 +45,7 @@
                                                                       --Grid/MaxObstacleHeight 0.7
                                                                       --Grid/RayTracing true
                                                                       --Reg/Force3DoF true
+                                                                      --Reg/Strategy 0
                                                                       --Mem/STMSize 30"/>
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
