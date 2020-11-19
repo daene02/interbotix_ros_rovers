@@ -19,3 +19,4 @@ TrajectoryPlannerROS:
   pdist_scale: 0.75
   gdist_scale: 1.0
   occdist_scale: 0.1
+  dwa: true
