@@ -6,7 +6,8 @@ project(interbotix_xslocobot_nav)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   interbotix_xslocobot_control
-  # interbotix_xs_nav
+  move_base
+  rtabmap_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -18,5 +19,5 @@ find_package(catkin REQUIRED COMPONENTS
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
 catkin_package(
- CATKIN_DEPENDS interbotix_xslocobot_control # interbotix_xs_nav
+ CATKIN_DEPENDS interbotix_xslocobot_control move_base rtabmap_ros
 )
