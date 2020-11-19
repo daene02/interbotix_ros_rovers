@@ -87,7 +87,7 @@
       <remap from="cloud"                         to="depth/color/voxels"/>
     </node>
 
-    <node
+    <!-- <node
       pkg="nodelet"
       type="nodelet"
       name="obstacle_detection"
@@ -95,14 +95,14 @@
       args="load pcl/PassThrough /$(arg robot_name)/camera/realsense2_camera_manager">
       <param name="input_frame"                   value="$(arg robot_name)/base_footprint"/>
       <param name="filter_field_name"             value="z"/>
-      <param name="filter_limit_min"              value="0.01"/>
+      <param name="filter_limit_min"              value="0.06"/>
       <param name="filter_limit_max"              value="0.7"/>
       <param name="filter_limit_negative"         value="false"/>
       <remap from="~input"                        to="depth/color/voxels"/>
       <remap from="~output"                       to="depth/color/obstacles"/>
-    </node>
+    </node> -->
 
-    <!-- <node
+    <node
       pkg="nodelet"
       type="nodelet"
       name="obstacle_detection"
@@ -113,7 +113,7 @@
       <remap from="cloud"                         to="depth/color/voxels"/>
       <remap from="ground"                        to="depth/color/ground"/>
       <remap from="obstacles"                     to="depth/color/obstacles"/>
-    </node> -->
+    </node>
 
     <node
       name="rtabmap"
