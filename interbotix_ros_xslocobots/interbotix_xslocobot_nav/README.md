@@ -38,7 +38,9 @@ To visualize the map being created, just click the checkbox by the **Map** displ
   <img width="70%" height="auto" src="images/map_building.png">
 </p>
 
+At this point, you're ready to start moving the robot. There are three ways to do this. One is to use the `2D Nav Goal` button at the the top of the Rviz screen to set a goal pose within the map's free space. This sends a command to move_base to plan out and execute a path to the goal. A second way is to set the `use_joy` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use a SONY PS3 or PS4 controller to manually move the robot around. Yet another way is to set the `use_keyboard` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use your keyboard arrow keys to move the robot around. Note that the node that runs the keyboard is Kobuki specific. It's not from the `turtlebot` packages for dependency reasons.
 
+My recommendation is to use a PS4 controller when doing mapping or SLAM since that gives you full control on the robot's motion and is more intuitive to use than the keyboard. 
 
 This is the bare minimum needed to get up and running. Take a look at the table below to see how to further customize with other launch file arguments.
 
