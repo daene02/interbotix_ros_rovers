@@ -38,9 +38,21 @@ To visualize the map being created, just click the checkbox by the **Map** displ
   <img width="70%" height="auto" src="images/map_building.png">
 </p>
 
-At this point, you're ready to start moving the robot. There are three ways to do this. One is to use the `2D Nav Goal` button at the the top of the Rviz screen to set a goal pose within the map's free space. This sends a command to move_base to plan out and execute a path to the goal. A second way is to set the `use_joy` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use a SONY PS3 or PS4 controller to manually move the robot around. Yet another way is to set the `use_keyboard` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use your keyboard arrow keys to move the robot around. Note that the node that runs the keyboard is Kobuki specific. It's not from the `turtlebot` packages for dependency reasons.
+At this point, you're ready to start moving the robot. There are three ways to do this. One is to use the `2D Nav Goal` button at the the top of the Rviz screen to set a goal pose within the map's free space. This sends a command to move_base to plan out and execute a path to the goal. A second way is to set the `use_joy` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use a SONY PS3 or PS4 controller to manually move the robot around. Yet another way is to set the `use_keyboard` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use your keyboard arrow keys to move the robot. Note that the node that runs the keyboard is Kobuki specific. It's not from the `turtlebot` packages for dependency reasons. Also note that only one of these control modes should be used at a time; otherwise, the base might not move correctly (as it's being bombarded with different velocity commands from multiple packages simultaneously).
 
-My recommendation is to use a PS4 controller when doing mapping or SLAM since that gives you full control on the robot's motion and is more intuitive to use than the keyboard. 
+My recommendation is to use a PS4 controller when doing mapping or SLAM since that gives you full control on the robot's motion and is more intuitive to use than the keyboard. Some other tips to get a clean point cloud map are:
+- Rotate the robot full circle slowly to get as many features as possible so that the algorithm has a higher chance of getting loop closures
+- After rotating in a single spot, slowly translate over to another spot, and do another full circle. Repeat this sand the above steps multiple times until you've mapped your desired area
+- In the **RtabmapROS** Rviz display, open up the **MapCloud** display, and raise the `Cloud decimation` level to 6 or 8 (default is 4). This will filter out more of the raw point cloud data, reducing noise
+- Also in the **RtabmapROS** Rviz display, open the **MapCloud** display, and lower the `Cloud max depth` level to 2 (default is 4). This will only stitch point cloud data up to 2 meters away from the robot together. As depth readings tends to degrade the further away they are from the sensor, this will also filter out noisy data.
+- Try not to map out areas that are already mapped out more than once to reduce noise; also this will keep the size of the resulting database smaller; these files can be rather large (a few hundred Megabytes)!!
+- For optimal loop closure detection, it's a good idea that the depth camera be tilted to the same angle that it will be tilted at when just doing localization; during localization, it's a good idea to have the camera tilted down slightly so that small obstacles that can't be seen by the laser scanner can be picked up.
+
+After mapping, you should have a MapCloud similar in structure to the one below. If that's the case, type `Ctrl-C` in the robot's terminal to stop the launch file. Then close out Rviz on your remote computer as well.
+
+<p align="center">
+  <img width="70%" height="auto" src="images/3d_view_office_1.png">
+</p>
 
 This is the bare minimum needed to get up and running. Take a look at the table below to see how to further customize with other launch file arguments.
 
