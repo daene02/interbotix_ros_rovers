@@ -10,11 +10,36 @@ As shown above, this package builds on top of the *interbotix_xslocobot_control*
 - **xs_hardware_interface** - receives joint commands from the ROS controllers and publishes them to the correct topics (subscribed to by the **xs_sdk** node) at the appropiate times
 
 ## Usage
-This package is not meant to be used by itself but included in a launch file within your custom ROS package (which should expose a FollowJointTrajectoryAction interface).
-To run this package, type the line below in a terminal (assuming a Locobot with a PincherX 100 is being launched).
+There are three ways this package can be used. One way is to build a map from scratch and have the robot perform SLAM. Assuming you have the Locobot WX200 robot with the lidar add-on, run the following in a terminal via SSH:
 ```
-$ roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200
+$ roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true rtabmap_args:=-d
 ```
+
+The above command will delete the current database (by default - stored at `~/.ros/rtabmap.db`) and create a new one. The database stores map cloud and graph data (see the ROS Wiki for info on these concepts) which it then uses at run time to create a 2D map that move_base can use.
+
+Once the Nav Stack is running, you should see info messages appearing in the terminal once a second saying something similar to...
+```
+rtabmap (3): Rate=1.00s, Limit=0.000s, RTAB-Map=0.0697s, Maps update=0.0099s pub=0.0000s (local map=1, WM=1)
+```
+
+Now, to visualize the robot in Rviz, run the following on your personal Linux computer (note that you should first run the remote installation script on your personal computer if you haven't done so already):
+```
+$ roslaunch interbotix_xslocobot_descriptions remote_view.launch robot_name:=locobot_wx200 rviz_frame:=map
+```
+
+Rviz should now open up looking like the picture below:
+<p align="center">
+  <img width="70%" height="auto" src="images/rviz_start.png">
+</p>
+
+To visualize the map being created, just click the checkbox by the **Map** display. To see a live color feed as well as filtered point cloud data from the RealSense camera, click the **Camera** display. Note that move_base uses this filtered point cloud data to detect obstacles in the robot's path. It is filtered to reduce bandwidth and to segment out the floor so that the robot doesn't think the 'floor is lava' so-to-speak :). On the other hand, rtabmap_ros uses both the live feed and an aligned depth feed (not displayed) to perform mapping and localization. Next, click the **LaserScan** display to show a 360 degree view of where it thinks there are obstacles. This is used both by move_base for obstacle dectection and rtabmap_ros for mapping and localization refinement. Moving on, the **RtabmapRos** display can be used to show a point-cloud representation of the robot's environment built in real-time as the robot moves. See the picture below for a visualization of all these displays in Rviz.
+
+<p align="center">
+  <img width="70%" height="auto" src="images/map_building.png">
+</p>
+
+
+
 This is the bare minimum needed to get up and running. Take a look at the table below to see how to further customize with other launch file arguments.
 
 | Argument | Description | Default Value |
