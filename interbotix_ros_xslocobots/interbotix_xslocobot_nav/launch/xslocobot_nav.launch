@@ -29,7 +29,7 @@
                                                                       --Grid/FromDepth false
                                                                       --Grid/MaxObstacleHeight 0.7
                                                                       --Grid/RayTracing true
-                                                                      --Grid/RangeMax 0
+                                                                      --Grid/RangeMax 2
                                                                       --Reg/Force3DoF true
                                                                       --Reg/Strategy 1
                                                                       --Mem/STMSize 30
@@ -46,6 +46,7 @@
                                                                       --Grid/FromDepth true
                                                                       --Grid/MaxObstacleHeight 0.7
                                                                       --Grid/RayTracing true
+                                                                      --Grid/RangeMax 2
                                                                       --Reg/Force3DoF true
                                                                       --Reg/Strategy 0
                                                                       --Mem/STMSize 30"/>
