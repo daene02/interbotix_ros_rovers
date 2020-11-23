@@ -7,10 +7,13 @@ This package configures the ROS Navigation Stack needed to give any X-Series Int
 ![xslocobot_nav_flowchart](images/xslocobot_nav_flowchart.png)
 As shown above, this package builds on top of the *interbotix_xslocobot_control* package (which starts the **xs_sdk** node), and is used in conjunction with the *rtabmap_ros* and *move_base* ROS packages. A short description of the nodes needed from those packages can be found below:
 - **controller_manager** - responsible for loading and starting a set of controllers at once, as well as automatically stopping and unloading those same controllers
-- **xs_hardware_interface** - receives joint commands from the ROS controllers and publishes them to the correct topics (subscribed to by the **xs_sdk** node) at the appropiate times
+- **xs_hardware_interface** - receives joint commands from the ROS controllers and publishes them to the correct topics (subscribed to by the **xs_sdk** node) at the appropiate times.
 
 ## Usage
-There are three ways this package can be used. One way is to build a map from scratch and have the robot perform SLAM. Assuming you have the Locobot WX200 robot with the lidar add-on, run the following in a terminal via SSH:
+There are three ways this package can be used. One way is to build a map from scratch and have the robot perform SLAM. A second way is to load a pre-built map and continue SLAM. Finally, a third way is to load a pre-built map and just do localization. Note that the commands below assume the user has a Locobot WidowX 200 robot with the lidar add-on. However, any X-Series Locobot will work. If no lidar is being used, make sure the `use_lidar` argument is set to `false`.
+
+##### SLAM From Scratch
+To get SLAM up and runnig from scratch, type the following in a terminal on the robot computer:
 ```
 $ roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true rtabmap_args:=-d
 ```
@@ -38,11 +41,20 @@ To visualize the map being created, just click the checkbox by the **Map** displ
   <img width="70%" height="auto" src="images/map_building.png">
 </p>
 
-At this point, you're ready to start moving the robot. There are three ways to do this. One is to use the `2D Nav Goal` button at the the top of the Rviz screen to set a goal pose within the map's free space. This sends a command to move_base to plan out and execute a path to the goal. A second way is to set the `use_joy` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use a SONY PS3 or PS4 controller to manually move the robot around. Yet another way is to set the `use_keyboard` launch file argument to `true` when starting up the *xslocobot_nav.launch* file on the robot. This will then allow you to use your keyboard arrow keys to move the robot. Note that the node that runs the keyboard is Kobuki specific. It's not from the `turtlebot` packages for dependency reasons. Also note that only one of these control modes should be used at a time; otherwise, the base might not move correctly (as it's being bombarded with different velocity commands from multiple packages simultaneously).
+At this point, you're ready to start moving the robot. There are three ways to do this. One is to use the `2D Nav Goal` button at the the top of the Rviz screen to set a goal pose within the map's free space. This sends a command to move_base to plan out and execute a path to the goal. A second way is to run the `xslocobot_joy.launch` file found in the *interbotix_xslocobot_joy* ROS package (either on the robot or on your remote computer). To do this, type...
+```
+roslaunch interbotix_xslocobot_joy xslocobot_joy.launch robot_model:=locobot_wx200 launch_driver:=false
+```
+Setting the `launch_driver` argument to `false` tells the launch file not to startup the locobot driver nodes as the robot is already running. Finally, a third way to move the robot is to run the Kobuki **keyop** node. This will then allow you to use your keyboard arrow keys to move the robot. To do this, type the following either on the robot or remote computer...
+```
+roslaunch kobuki_keyop keyop.launch __ns:=locobot_wx200
+```
+Note the two underscores before the *ns* launch file tag.
+ Also note that only one of these control modes should be used at a time; otherwise, the base might not move correctly (as it's being bombarded with different velocity commands from multiple packages simultaneously).
 
 My recommendation is to use a PS4 controller when doing mapping or SLAM since that gives you full control on the robot's motion and is more intuitive to use than the keyboard. Some other tips to get a clean point cloud map are:
 - Rotate the robot full circle slowly to get as many features as possible so that the algorithm has a higher chance of getting loop closures
-- After rotating in a single spot, slowly translate over to another spot, and do another full circle. Repeat this sand the above steps multiple times until you've mapped your desired area
+- After rotating in a single spot, slowly translate over to another spot, and do another full circle. Repeat this and the above step multiple times until you've mapped your desired area
 - In the **RtabmapROS** Rviz display, open up the **MapCloud** display, and raise the `Cloud decimation` level to 6 or 8 (default is 4). This will filter out more of the raw point cloud data, reducing noise
 - Also in the **RtabmapROS** Rviz display, open the **MapCloud** display, and lower the `Cloud max depth` level to 2 (default is 4). This will only stitch point cloud data up to 2 meters away from the robot together. As depth readings tends to degrade the further away they are from the sensor, this will also filter out noisy data.
 - Try not to map out areas that are already mapped out more than once to reduce noise; also this will keep the size of the resulting database smaller; these files can be rather large (a few hundred Megabytes)!!
@@ -53,6 +65,37 @@ After mapping, you should have a MapCloud similar in structure to the one below.
 <p align="center">
   <img width="70%" height="auto" src="images/3d_view_office_1.png">
 </p>
+
+##### Continuing SLAM From a Pre-Built Map
+To continue doing SLAM, type the following in a terminal on the robot computer:
+```
+roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true rtabmap_args:=--Rtabmap/StartNewMapOnLoopClosure true
+```
+
+Setting the `Rtabmap/StartNewMapOnLoopClosure` parameter to `true` tells Rtabmap to wait on starting a new map until it detects a loop closure with the old map. If you'd rather have Rtabmap start creating a new map right away before finding loop closures (perhaps you're mapping a different part of your office that's not next to the first part), then set the parameter to `false` (which it should be by default).
+
+As far as visualizing the robot in Rviz and controlling it are concerned, just look at the tips in the **SLAM From Scratch** section above.
+
+##### Localization
+Once you've finished mapping your desired environment, the next step is to have the robot uses its sensors to just localize itself within the map while navigating. To do so, type the following in a terminal on the robot computer:
+```
+roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true localization:=true
+```
+Next, open up Rviz on your remote computer as outlined in the **SLAM From Scratch** section, and visualize the **Map** display. You should see something similar in structure to the picture below (of course your office layout will be different).
+
+<p align="center">
+  <img width="70%" height="auto" src="images/map_2d_view.png">
+</p>
+
+Now check the **Move Base** Rviz display. This should display both the global and local costmaps. In general, a costmap associates obstacles with high cost values (100), areas near obstacles with slightly lower values (from 1 - 99), and free space as 0. These costmaps are then used to do path planning where the main objective is to find a path that has minimal cost. For the map above (generated from Rtabmap), the global costmap looks like...
+
+<p align="center">
+  <img width="70%" height="auto" src="images/global_costmap.png">
+</p>
+
+As can be seen, it's pretty colorful! Each color is associated with a cost. The color that lines up with the black part in the original map represents true obstacles and signifies the highest cost (the light purple color surrounded by cyan in this case). As you move outward, each color signifies a slightly lower cost.
+
+In this case, the global costmap is made up of three layers. The first layer is the raw static map shown in the **Map** display that came from Rtabmap. The second layer is the Obstacle layer. Any obstacles picked up by the robot's sensors not seen in the original static map are added in this layer. The final layer is the Inflation layer. As its name suggests, all obstacles are inflated a bit to prevent the robot from navigating too close to obstacles.
 
 This is the bare minimum needed to get up and running. Take a look at the table below to see how to further customize with other launch file arguments.
 
