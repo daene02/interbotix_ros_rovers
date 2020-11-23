@@ -95,7 +95,21 @@ Now check the **Move Base** Rviz display. This should display both the global an
 
 As can be seen, it's pretty colorful! Each color is associated with a cost. The color that lines up with the black part in the original map represents true obstacles and signifies the highest cost (the light purple color surrounded by cyan in this case). As you move outward, each color signifies a slightly lower cost.
 
-In this case, the global costmap is made up of three layers. The first layer is the raw static map shown in the **Map** display that came from Rtabmap. The second layer is the Obstacle layer. Any obstacles picked up by the robot's sensors not seen in the original static map are added in this layer. The final layer is the Inflation layer. As its name suggests, all obstacles are inflated a bit to prevent the robot from navigating too close to obstacles.
+In this case, the global costmap is made up of three layers. The first one is the static map layer which is essentially the map created by Rtabmap. The second one is the Obstacle layer. Any obstacles picked up by the robot's sensors not seen in the original static map are added in this layer. The final one is the Inflation layer. As its name suggests, all obstacles are inflated a bit to prevent the robot from navigating too close to obstacles.
+
+The local costmap on the other hand is made up of two layers and is a lot smaller (a 4 meter square area centered around the robot). It just contains the Obstacle layer and the inflation layer. A picture of it can be seen below.
+
+<p align="center">
+  <img width="70%" height="auto" src="images/local_costmap.png">
+</p>
+
+Besides for the Costmap sub-displays in the **Move Base** group, there are also the Global and Local Plan displays. Whenever a 2D Nav Goal is set in Rviz, a global path (in green) is displayed linking the goal state with the start state. This path is the overall path the robot will try to follow. Similarly, a local plan (in red) is also displayed that starts from the robot's footprint and goes for about a meter. The local plan attempts to follow the global path but will take detours if obstacles get in the way.
+
+<p align="center">
+  <img width="70%" height="auto" src="images/path_planning.png">
+</p>
+
+As an FYI, when starting in localization mode, Rtabmap will try to localize the robot using its last known position (from a previous session) as a reference point. Most of the time, it's able to figure out where the robot is. Sometimes however, especially if the room is not feature-rich, Rtabmap will localize the robot incorrectly. If that's the case, just use the **2D Pose Estimate** tool at the top of the Rviz window to let Rtabmap know where the robot actually is.
 
 This is the bare minimum needed to get up and running. Take a look at the table below to see how to further customize with other launch file arguments.
 
@@ -103,9 +117,13 @@ This is the bare minimum needed to get up and running. Take a look at the table 
 | -------- | ----------- | :-----------: |
 | robot_model | model type of the Interbotix Locobot such as 'locobot_base' or 'locobot_wx250s' | "" |
 | robot_name | name of the robot (typically equal to `robot_model`, but could be anything) | "$(arg robot_model)" |
+| use_lidar | if true, the RPLidar node is launched | false |
 | show_lidar | set to true if the lidar is installed on the robot; this will load the lidar related links to the 'robot_description' parameter | $(arg use_lidar) |
-| external_urdf_loc | the file path to the custom urdf.xacro file that you would like to include in the Interbotix robot's urdf.xacro file| "" |
 | use_rviz | launches Rviz | false |
 | use_camera | if true, the RealSense D435 camera nodes are launched | false |
-| mode_configs | the file path to the 'mode config' YAML file | refer to [xslocobot_nav.launch](launch/xslocobot_nav.launch) |
-| dof | the degrees of freedom of the arm | 5 |
+| localization | if true, Rtabmap opens in localization only mode; if false, Rtabmap open in SLAM mode | false |
+| rtabmap_args | arguments that should be passed to the **rtabmap** node; note that these arguments are in addition to the arguments already specified in the *rtabmap_default_args* argument in the [xslocobot_nam.launch](launch/xslocobot_nav.launch) file | "" |
+| use_rtabmapviz | whether or not to use Rtabmap's Visualization tool; it's not really necessary as Rtabmap already has Rviz display plugins | false |
+| rtabmapviz_args | arguments to pass to the Rtabmapviz visualization node | "" |
+| database_path | location where all the mapping data Rtabmap collects should be stored | "~/.ros/rtabmap.db" |
+| camera_tilt_angle | desired angle [rad] that the D435 camera should be tilted when doing SLAM or localization | 0.2618 |
