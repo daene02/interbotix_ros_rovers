@@ -127,3 +127,19 @@ This is the bare minimum needed to get up and running. Take a look at the table 
 | rtabmapviz_args | arguments to pass to the Rtabmapviz visualization node | "" |
 | database_path | location where all the mapping data Rtabmap collects should be stored | "~/.ros/rtabmap.db" |
 | camera_tilt_angle | desired angle [rad] that the D435 camera should be tilted when doing SLAM or localization | 0.2618 |
+
+## Troubleshooting Notes
+
+###### Time out waiting for transform...
+When starting the Nav Stack (either when continuing a map or just doing localization) on your robot, you may see some warnings appear in the terminal. For example...
+```
+Timed out waiting for transform from locobot_wx200/base_footprint to map to become available before running costmap, tf error: canTransform: target_frame map does not exist.. canTransform returned after 0.100567 timeout was 0.1
+```
+The reason this appears is because no map is being supplied to the navigation stack. The reason for *that* is because it takes Rtabmap a few seconds to generate the map from its database (which could be hundreds of megabytes). As such, this warning can be safely ignored assuming it stops once Rtabmap gets the map out.
+
+###### Rejected Loop Closure
+When starting the Nav stack or during mapping, you may see the following warning appear (or similar) in the terminal...
+```
+Rtabmap.cpp:2533::process() Rejected loop closure 694 -> 773: Not enough inliers 0/20 (matches=0) between 694 and 772
+```
+Similar to the first warning, this can be ignored if it only shows up a few times at node startup. It just means that Rtabmap has failed to determine where the robot is in the map. If you're mapping too quickly, this warning can also appear, so slow down a bit.
