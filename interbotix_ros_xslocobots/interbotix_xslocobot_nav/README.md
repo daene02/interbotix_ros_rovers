@@ -6,8 +6,15 @@ This package configures the ROS Navigation Stack needed to give any X-Series Int
 ## Structure
 ![xslocobot_nav_flowchart](images/xslocobot_nav_flowchart.png)
 As shown above, this package builds on top of the *interbotix_xslocobot_control* package (which starts the **xs_sdk** node), and is used in conjunction with the *rtabmap_ros* and *move_base* ROS packages. A short description of the nodes needed from those packages can be found below:
-- **controller_manager** - responsible for loading and starting a set of controllers at once, as well as automatically stopping and unloading those same controllers
-- **xs_hardware_interface** - receives joint commands from the ROS controllers and publishes them to the correct topics (subscribed to by the **xs_sdk** node) at the appropiate times.
+- **rostopic** - used to publish the desired tilt angle for the RealSense camera at startup
+- **rtabmapviz** - Rtabmap's Visualization tool when doing mapping or localization; not really necessary to use since Rtabmap has Rviz plugins that work pretty well
+- **move_base** - responsible for planning paths for the robot and sending Twist commands to the Kobuki base to follow them
+- **rtabmap** - responsible for performing SLAM or just localization
+
+Note that there are also a few Rtabmap nodelets that are started up under the *realsense2_camera_manager* for processing purposes. Descriptions of them are below:
+- **rtabmap_ros/rgbd_sync** - synchronizes color and depth images from the Realsense camera, and outputs an RGBD image; this is used by the nodelet below and the main **rtabmap** node to do SLAM or localization
+- **rtabmap_ros/point_cloud_xyzrgb** - takes in RGBD images, decimates them (to reduce noise and processing requirements), and outputs PointCloud2 messages to the nodelet below
+- **rtabmap_ros/obstacles_detection** - takes in PointCloud2 messages and filters out the ground; then it outputs the resulting PointCloud2 to `depth/color/obstacles`. This is in turn used by `move_base` to avoid obstacles
 
 ## Usage
 There are three ways this package can be used. One way is to build a map from scratch and have the robot perform SLAM. A second way is to load a pre-built map and continue SLAM. Finally, a third way is to load a pre-built map and just do localization. Note that the commands below assume the user has a Locobot WidowX 200 robot with the lidar add-on. However, any X-Series Locobot will work. If no lidar is being used, make sure the `use_lidar` argument is set to `false`.
@@ -130,14 +137,14 @@ This is the bare minimum needed to get up and running. Take a look at the table 
 
 ## Troubleshooting Notes
 
-###### Time out waiting for transform...
+##### Time out waiting for transform...
 When starting the Nav Stack (either when continuing a map or just doing localization) on your robot, you may see some warnings appear in the terminal. For example...
 ```
 Timed out waiting for transform from locobot_wx200/base_footprint to map to become available before running costmap, tf error: canTransform: target_frame map does not exist.. canTransform returned after 0.100567 timeout was 0.1
 ```
 The reason this appears is because no map is being supplied to the navigation stack. The reason for *that* is because it takes Rtabmap a few seconds to generate the map from its database (which could be hundreds of megabytes). As such, this warning can be safely ignored assuming it stops once Rtabmap gets the map out.
 
-###### Rejected Loop Closure
+##### Rejected Loop Closure
 When starting the Nav stack or during mapping, you may see the following warning appear (or similar) in the terminal...
 ```
 Rtabmap.cpp:2533::process() Rejected loop closure 694 -> 773: Not enough inliers 0/20 (matches=0) between 694 and 772
