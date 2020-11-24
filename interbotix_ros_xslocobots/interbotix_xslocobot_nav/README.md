@@ -12,7 +12,7 @@ As shown above, this package builds on top of the *interbotix_xslocobot_control*
 ## Usage
 There are three ways this package can be used. One way is to build a map from scratch and have the robot perform SLAM. A second way is to load a pre-built map and continue SLAM. Finally, a third way is to load a pre-built map and just do localization. Note that the commands below assume the user has a Locobot WidowX 200 robot with the lidar add-on. However, any X-Series Locobot will work. If no lidar is being used, make sure the `use_lidar` argument is set to `false`.
 
-##### SLAM From Scratch
+#### SLAM From Scratch
 To get SLAM up and runnig from scratch, type the following in a terminal on the robot computer:
 ```
 $ roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true rtabmap_args:=-d
@@ -66,7 +66,7 @@ After mapping, you should have a MapCloud similar in structure to the one below.
   <img width="70%" height="auto" src="images/3d_view_office_1.png">
 </p>
 
-##### Continuing SLAM From a Pre-Built Map
+#### Continuing SLAM From a Pre-Built Map
 To continue doing SLAM, type the following in a terminal on the robot computer:
 ```
 roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true rtabmap_args:=--Rtabmap/StartNewMapOnLoopClosure true
@@ -76,7 +76,7 @@ Setting the `Rtabmap/StartNewMapOnLoopClosure` parameter to `true` tells Rtabmap
 
 As far as visualizing the robot in Rviz and controlling it are concerned, just look at the tips in the **SLAM From Scratch** section above.
 
-##### Localization
+#### Localization
 Once you've finished mapping your desired environment, the next step is to have the robot uses its sensors to just localize itself within the map while navigating. To do so, type the following in a terminal on the robot computer:
 ```
 roslaunch interbotix_xslocobot_nav xslocobot_nav.launch robot_model:=locobot_wx200 use_lidar:=true localization:=true
@@ -120,7 +120,7 @@ This is the bare minimum needed to get up and running. Take a look at the table 
 | use_lidar | if true, the RPLidar node is launched | false |
 | show_lidar | set to true if the lidar is installed on the robot; this will load the lidar related links to the 'robot_description' parameter | $(arg use_lidar) |
 | use_rviz | launches Rviz | false |
-| use_camera | if true, the RealSense D435 camera nodes are launched | false |
+| use_camera | if true, the RealSense D435 camera nodes are launched | true |
 | localization | if true, Rtabmap opens in localization only mode; if false, Rtabmap open in SLAM mode | false |
 | rtabmap_args | arguments that should be passed to the **rtabmap** node; note that these arguments are in addition to the arguments already specified in the *rtabmap_default_args* argument in the [xslocobot_nam.launch](launch/xslocobot_nav.launch) file | "" |
 | use_rtabmapviz | whether or not to use Rtabmap's Visualization tool; it's not really necessary as Rtabmap already has Rviz display plugins | false |

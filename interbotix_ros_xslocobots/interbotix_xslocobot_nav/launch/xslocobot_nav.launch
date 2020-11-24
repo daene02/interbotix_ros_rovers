@@ -54,7 +54,6 @@
     <arg name="use_rviz"                          value="$(arg use_rviz)"/>
     <arg name="rviz_frame"                        value="map"/>
     <arg name="use_camera"                        value="$(arg use_camera)"/>
-    <arg name="filters"                           value="pointcloud"/>
     <arg name="use_base"                          value="true"/>
   </include>
 
